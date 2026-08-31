@@ -5,7 +5,6 @@
 osm-editor/.env
 
 # Frontend - built locally, shipped separately (not via git)
-osm-editor/dist/
 osm-editor/node_modules/
 osm-editor/.cache/
 

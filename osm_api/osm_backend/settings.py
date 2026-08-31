@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,12 +16,10 @@ if os.name == 'nt':
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-x5=epl4$4!yl1(we5%r%s9zql5q0y94gpox8fs_&^-l70m6gp0"
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
 
 # Application definition
@@ -89,13 +88,13 @@ WSGI_APPLICATION = "osm_backend.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'map_work_db',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': '5432',
-        'CONN_MAX_AGE': 600,  # persistent connections
+        'ENGINE': config('DB_ENGINE', default='django.contrib.gis.db.backends.postgis'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432'),
+        'CONN_MAX_AGE': config('DB_CONN_MAX_AGE', default=600, cast=int),
     }
 }
 

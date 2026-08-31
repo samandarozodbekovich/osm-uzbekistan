@@ -1,5 +1,5 @@
 Django==6.0.6
-psycopg2==2.9.12
+psycopg2-binary==2.9.12
 sqlparse==0.5.5
 tzdata==2026.2
 asgiref==3.11.1
@@ -8,3 +8,4 @@ djangorestframework-gis==1.1
 django-leaflet==0.29.1
 drf-spectacular==0.29.0
 djangorestframework-simplejwt==5.5.1
+python-decouple

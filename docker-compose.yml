@@ -1,29 +1,7 @@
 # docker-compose.yml
 #
-# NOTE: PostgreSQL/PostGIS is intentionally NOT a service here. The
-# database runs natively on the host machine (Windows locally via Docker
-# Desktop, or directly installed on the Ubuntu server later) - completely
-# outside Docker's lifecycle. Rebuilding, restarting, or removing any of
-# these containers (including "docker compose down") can NEVER touch the
-# database, because Docker doesn't manage it at all.
-#
-# Both django and martin reach it via "host.docker.internal":
-#   - On Docker Desktop (Windows/Mac): this hostname works automatically.
-#   - On Linux (the real Ubuntu server): Docker Engine does NOT provide
-#     this by default - the "extra_hosts" entry below adds it manually
-#     (requires Docker 20.10+, which is standard on any current Ubuntu).
-#
-# Layout expected (repo root):
-#   docker-compose.yml   <- this file
-#   .env                 <- secrets (see .env.example)
-#   martin-config.yaml    <- your existing Martin config
-#   osm_api/              <- Django project (contains manage.py, Dockerfile)
-#   osm-editor/           <- forked iD Editor frontend source
-#   nginx/                <- Dockerfile + nginx.conf (build stage compiles osm-editor)
-#
-# Usage:
-#   docker compose up -d --build
-#   docker compose logs -f
+# PostgreSQL/PostGIS is NOT a service here - runs natively on the host.
+# Docker never touches the database.
 
 services:
   martin:
@@ -52,8 +30,6 @@ services:
       - static_files:/app/staticfiles
     expose:
       - "8000"
-    # Low worker count - keep RAM headroom on a 2-4GB box.
-    # Increase --workers only if you upgrade RAM.
     command: >
       gunicorn osm_backend.wsgi:application
       --bind 0.0.0.0:8000
@@ -71,6 +47,7 @@ services:
       - martin
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - static_files:/static:ro
 

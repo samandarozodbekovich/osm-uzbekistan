@@ -1,0 +1,78 @@
+# docker-compose.yml
+#
+# NOTE: PostgreSQL/PostGIS is intentionally NOT a service here. The
+# database runs natively on the host machine (Windows locally via Docker
+# Desktop, or directly installed on the Ubuntu server later) - completely
+# outside Docker's lifecycle. Rebuilding, restarting, or removing any of
+# these containers (including "docker compose down") can NEVER touch the
+# database, because Docker doesn't manage it at all.
+#
+# Both django and martin reach it via "host.docker.internal":
+#   - On Docker Desktop (Windows/Mac): this hostname works automatically.
+#   - On Linux (the real Ubuntu server): Docker Engine does NOT provide
+#     this by default - the "extra_hosts" entry below adds it manually
+#     (requires Docker 20.10+, which is standard on any current Ubuntu).
+#
+# Layout expected (repo root):
+#   docker-compose.yml   <- this file
+#   .env                 <- secrets (see .env.example)
+#   martin-config.yaml    <- your existing Martin config
+#   osm_api/              <- Django project (contains manage.py, Dockerfile)
+#   osm-editor/           <- forked iD Editor frontend source
+#   nginx/                <- Dockerfile + nginx.conf (build stage compiles osm-editor)
+#
+# Usage:
+#   docker compose up -d --build
+#   docker compose logs -f
+
+services:
+  martin:
+    image: ghcr.io/maplibre/martin:1.14.0
+    container_name: martin
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./martin-config.yaml:/config.yaml:ro
+    command: ["--config", "/config.yaml"]
+    ports:
+      - "127.0.0.1:3000:3000"
+
+  django:
+    build:
+      context: ./osm_api
+      dockerfile: Dockerfile
+    container_name: osm_django
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - .env
+    volumes:
+      - static_files:/app/staticfiles
+    expose:
+      - "8000"
+    # Low worker count - keep RAM headroom on a 2-4GB box.
+    # Increase --workers only if you upgrade RAM.
+    command: >
+      gunicorn osm_backend.wsgi:application
+      --bind 0.0.0.0:8000
+      --workers 2
+      --timeout 120
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: osm_nginx
+    restart: unless-stopped
+    depends_on:
+      - django
+      - martin
+    ports:
+      - "80:80"
+    volumes:
+      - static_files:/static:ro
+
+volumes:
+  static_files:

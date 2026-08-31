@@ -1,0 +1,902 @@
+postgres:
+  connection_string: postgres://postgres:12345@host.docker.internal:5432/map_work_db
+  default_srid: 4326
+  auto_publish: true
+  tables:
+    # ---------------- boundaries (admin levels) ----------------
+    boundary_polygon:
+      schema: public
+      table: boundary_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 3
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    boundary_polygon_lvl2:
+      schema: public
+      table: boundary_polygon_lvl2
+      srid: 4326
+      geometry_column: geom
+      minzoom: 0
+      maxzoom: 22
+      bounds: [55.99855041503906, 37.18159866333008, 73.21477508544922, 45.59067916870117]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    boundary_polygon_lvl3:
+      schema: public
+      table: boundary_polygon_lvl3
+      srid: 4326
+      geometry_column: geom
+      minzoom: 4
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    boundary_polygon_lvl4:
+      schema: public
+      table: boundary_polygon_lvl4
+      srid: 4326
+      geometry_column: geom
+      minzoom: 5
+      maxzoom: 22
+      bounds: [60.046504974365234, 37.18159866333008, 73.21477508544922, 43.735374450683594]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    boundary_polygon_lvl5:
+      schema: public
+      table: boundary_polygon_lvl5
+      srid: 4326
+      geometry_column: geom
+      minzoom: 6
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    boundary_polygon_lvl6:
+      schema: public
+      table: boundary_polygon_lvl6
+      srid: 4326
+      geometry_column: geom
+      minzoom: 7
+      maxzoom: 22
+      bounds: [55.99855041503906, 37.18159866333008, 73.21477508544922, 45.59067916870117]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    boundary_polygon_lvl7:
+      schema: public
+      table: boundary_polygon_lvl7
+      srid: 4326
+      geometry_column: geom
+      minzoom: 8
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    boundary_polygon_lvl8:
+      schema: public
+      table: boundary_polygon_lvl8
+      srid: 4326
+      geometry_column: geom
+      minzoom: 9
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    boundary_polygon_lvl10:
+      schema: public
+      table: boundary_polygon_lvl10
+      srid: 4326
+      geometry_column: geom
+      minzoom: 12
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        admin_l1: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    # ---------------- settlements ----------------
+    settlement_point:
+      schema: public
+      table: settlement_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 6
+      maxzoom: 22
+      bounds: [56.193660736083984, 37.20111083984375, 73.07894897460938, 45.233524322509766]
+      geometry_type: MULTIPOINT
+      properties:
+        a_cntr: varchar
+        a_dstrct: varchar
+        a_pstcd: varchar
+        a_rgn: varchar
+        fid: int4
+        int_name: varchar
+        name: varchar
+        name_en: varchar
+        official_s: varchar
+        osm_id: int8
+        osm_type: varchar
+        place: varchar
+        population: varchar
+
+    settlement_polygon:
+      schema: public
+      table: settlement_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 8
+      maxzoom: 22
+      bounds: [56.1796875, 37.19821548461914, 73.02462768554688, 45.58717346191406]
+      geometry_type: MULTIPOLYGON
+      properties:
+        a_cntr: varchar
+        a_dstrct: varchar
+        a_pstcd: varchar
+        a_rgn: varchar
+        fid: int4
+        int_name: varchar
+        name: varchar
+        name_en: varchar
+        official_s: varchar
+        osm_id: int8
+        osm_type: varchar
+        place: varchar
+        population: varchar
+
+    # ---------------- land / water ----------------
+    land:
+      schema: public
+      table: land
+      srid: 4326
+      geometry_column: geom
+      minzoom: 0
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        fid: int4
+
+    water_line:
+      schema: public
+      table: water_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 10
+      maxzoom: 22
+      bounds: [55.998558044433594, 37.18811798095703, 73.21472930908203, 44.766143798828125]
+      geometry_type: MULTILINESTRING
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+        waterway: varchar
+
+    water_point:
+      schema: public
+      table: water_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 13
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        natural: varchar
+        osm_id: int8
+        osm_type: varchar
+        waterway: varchar
+
+    water_polygon:
+      schema: public
+      table: water_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 8
+      maxzoom: 22
+      bounds: [55.99855041503906, 37.18159866333008, 73.20897674560547, 45.58060836791992]
+      geometry_type: MULTIPOLYGON
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        natural: varchar
+        osm_id: int8
+        osm_type: varchar
+        waterway: varchar
+        wetland: varchar
+
+    island_polygon:
+      schema: public
+      table: island_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 8
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+        type: varchar
+
+    # ---------------- landuse / vegetation / surface ----------------
+    landuse_polygon:
+      schema: public
+      table: landuse_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 12
+      maxzoom: 22
+      bounds: [55.999237060546875, 37.19478225708008, 73.12641906738281, 45.17074966430664]
+      geometry_type: MULTIPOLYGON
+      properties:
+        fid: int4
+        landuse: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+        rsdntl: varchar
+
+    vegetation_polygon:
+      schema: public
+      table: vegetation_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 12
+      maxzoom: 22
+      bounds: [58.21201705932617, 37.25202178955078, 73.1910629272461, 43.79182052612305]
+      geometry_type: MULTIPOLYGON
+      properties:
+        fid: int4
+        landuse: varchar
+        name: varchar
+        name_en: varchar
+        natural: varchar
+        osm_id: int8
+        osm_type: varchar
+        wood: varchar
+
+    surface_polygon:
+      schema: public
+      table: surface_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 12
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        fid: int4
+        natural: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    nature_reserve_polygon:
+      schema: public
+      table: nature_reserve_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 8
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        boundary: varchar
+        fid: int4
+        leisure: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    elevation_line:
+      schema: public
+      table: elevation_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 12
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTILINESTRING
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        natural: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    elevation_point:
+      schema: public
+      table: elevation_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 10
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        ele: varchar
+        fid: int4
+        mountain_p: varchar
+        name: varchar
+        name_en: varchar
+        natural: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    # ---------------- buildings ----------------
+    building_polygon:
+      schema: public
+      table: building_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 15
+      maxzoom: 22
+      bounds: [55.999271392822266, 37.1956901550293, 73.07869720458984, 45.20198440551758]
+      geometry_type: MULTIPOLYGON
+      properties:
+        a_hsnmbr: varchar
+        a_place: varchar
+        a_pstcd: varchar
+        a_sbrb: varchar
+        a_strt: varchar
+        addr_city: varchar
+        b_levels: varchar
+        building: varchar
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    building_point:
+      schema: public
+      table: building_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 16
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        a_hsnmbr: varchar
+        a_place: varchar
+        a_pstcd: varchar
+        a_sbrb: varchar
+        a_strt: varchar
+        addr_city: varchar
+        b_levels: varchar
+        building: varchar
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    # ---------------- transport: roads / rail / air / water ----------------
+    highway_line:
+      schema: public
+      table: highway_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 13
+      maxzoom: 22
+      bounds: [55.99875259399414, 37.188568115234375, 73.14370727539062, 45.588401794433594]
+      geometry_type: MULTILINESTRING
+      properties:
+        bridge: varchar
+        fid: int4
+        highway: varchar
+        lanes: varchar
+        maxspeed: varchar
+        name: varchar
+        name_en: varchar
+        oneway: varchar
+        osm_id: int8
+        osm_type: varchar
+        ref: varchar
+        surface: varchar
+        tunnel: varchar
+        width: varchar
+
+    highway_crossing_point:
+      schema: public
+      table: highway_crossing_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 16
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        crossing: varchar
+        crossing_r: varchar
+        fid: int4
+        highway: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    railway_line:
+      schema: public
+      table: railway_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 10
+      maxzoom: 22
+      bounds: [55.9992790222168, 37.19384002685547, 72.99739074707031, 44.880863189697266]
+      geometry_type: MULTILINESTRING
+      properties:
+        bridge: varchar
+        fid: int4
+        gauge: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+        railway: varchar
+        service: varchar
+        tunnel: varchar
+
+    railway_station_point:
+      schema: public
+      table: railway_station_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 12
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+        railway: varchar
+        station: varchar
+
+    railway_platform_polygon:
+      schema: public
+      table: railway_platform_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 16
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+        railway: varchar
+        ref: varchar
+
+    subway_entrance_point:
+      schema: public
+      table: subway_entrance_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 16
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        network: varchar
+        operator: varchar
+        osm_id: int8
+        osm_type: varchar
+        railway: varchar
+        ref: varchar
+
+    public_transport_line:
+      schema: public
+      table: public_transport_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 12
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTILINESTRING
+      properties:
+        fid: int4
+        "from": varchar
+        name: varchar
+        name_en: varchar
+        network: varchar
+        note: varchar
+        operator: varchar
+        osm_id: int8
+        osm_type: varchar
+        ref: varchar
+        route: varchar
+        to: varchar
+        via: varchar
+
+    public_transport_point:
+      schema: public
+      table: public_transport_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 14
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        fid: int4
+        highway: varchar
+        name: varchar
+        name_en: varchar
+        network: varchar
+        osm_id: int8
+        osm_type: varchar
+        public_tra: varchar
+        railway: varchar
+        ref: varchar
+
+    aerialway_line:
+      schema: public
+      table: aerialway_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 13
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTILINESTRING
+      properties:
+        aerialway: varchar
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    aerialway_point:
+      schema: public
+      table: aerialway_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 14
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        aerialway: varchar
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    airport_line:
+      schema: public
+      table: airport_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 10
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTILINESTRING
+      properties:
+        fid: int4
+        length: varchar
+        osm_id: int8
+        osm_type: varchar
+        ref: varchar
+        width: varchar
+
+    airport_polygon:
+      schema: public
+      table: airport_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 9
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        aerod_type: varchar
+        closest_to: varchar
+        fid: int4
+        iata: varchar
+        icao: varchar
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    port_point:
+      schema: public
+      table: port_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 10
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        operator: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    port_polygon:
+      schema: public
+      table: port_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 10
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOLYGON
+      properties:
+        fid: int4
+        name: varchar
+        name_en: varchar
+        operator: varchar
+        osm_id: int8
+        osm_type: varchar
+
+    cutline_line:
+      schema: public
+      table: cutline_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 12
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTILINESTRING
+      properties:
+        cutline: varchar
+        fid: int4
+        osm_id: int8
+        osm_type: varchar
+
+    # ---------------- utilities ----------------
+    power_line:
+      schema: public
+      table: power_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 9
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTILINESTRING
+      properties:
+        fid: int4
+        name: varchar
+        osm_id: int8
+        osm_type: varchar
+        power: varchar
+        voltage: varchar
+
+    power_point:
+      schema: public
+      table: power_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 13
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        fid: int4
+        osm_id: int8
+        osm_type: varchar
+        power: varchar
+
+    pipeline_line:
+      schema: public
+      table: pipeline_line
+      srid: 4326
+      geometry_column: geom
+      minzoom: 9
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTILINESTRING
+      properties:
+        capacity: varchar
+        diameter: varchar
+        fid: int4
+        location: varchar
+        name: varchar
+        name_en: varchar
+        operator: varchar
+        osm_id: int8
+        osm_type: varchar
+        pressure: varchar
+        substance: varchar
+
+    # ---------------- POI / parking / milestones ----------------
+    poi_point:
+      schema: public
+      table: poi_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 14
+      maxzoom: 22
+      bounds: [56.00321578979492, 37.19852828979492, 73.13195037841797, 45.54629898071289]
+      geometry_type: MULTIPOINT
+      properties:
+        amenity: varchar
+        fid: int4
+        leisure: varchar
+        man_made: varchar
+        name: varchar
+        name_en: varchar
+        office: varchar
+        osm_id: int8
+        osm_type: varchar
+        shop: varchar
+        sport: varchar
+        tourism: varchar
+
+    poi_polygon:
+      schema: public
+      table: poi_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 14
+      maxzoom: 22
+      bounds: [55.99855041503906, 37.19974899291992, 73.10635375976562, 45.587703704833984]
+      geometry_type: MULTIPOLYGON
+      properties:
+        amenity: varchar
+        fid: int4
+        leisure: varchar
+        man_made: varchar
+        name: varchar
+        name_en: varchar
+        office: varchar
+        osm_id: int8
+        osm_type: varchar
+        shop: varchar
+        sport: varchar
+        tourism: varchar
+
+    parking_polygon:
+      schema: public
+      table: parking_polygon
+      srid: 4326
+      geometry_column: geom
+      minzoom: 15
+      maxzoom: 22
+      bounds: [56.0082893371582, 37.211849212646484, 72.98204040527344, 44.891117095947266]
+      geometry_type: MULTIPOLYGON
+      properties:
+        access: varchar
+        capacity: varchar
+        fee: varchar
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+        parking: varchar
+
+    milestone_point:
+      schema: public
+      table: milestone_point
+      srid: 4326
+      geometry_column: geom
+      minzoom: 15
+      maxzoom: 22
+      bounds: [55.9985, 37.1816, 73.2148, 45.5907]
+      geometry_type: MULTIPOINT
+      properties:
+        check_date: varchar
+        dist_bkwrd: varchar
+        dist_frwrd: varchar
+        distance: varchar
+        fid: int4
+        name: varchar
+        name_en: varchar
+        osm_id: int8
+        osm_type: varchar
+        pk_bkwrd: varchar
+        source: varchar
+
+    # ---------------- raw editable OSM data (id_editor) ----------------
+    osm_nodes:
+      schema: public
+      table: osm_nodes
+      srid: 4326
+      geometry_column: geom
+      # 17M+ rows - kept at high zoom on purpose. This table is meant as a
+      # raw editing reference inside iD (checking node placement while
+      # editing), NOT a public basemap layer. Serving it from a low zoom
+      # would generate extremely dense, slow tiles across large areas.
+      minzoom: 15
+      maxzoom: 22
+      bounds: [71.36463165283203, 42.8941764831543, 71.36515045166016, 42.89471435546875]
+      geometry_type: POINT
+      properties:
+        changeset_id: int8
+        id: int8
+        lat: float8
+        lon: float8
+        timestamp: timestamptz
+        version: int4
+        visible: bool
+
+    # osm_basemap olib tashlandi - bu VIEW baza tozalanganda yo'qolgan.
+    # Agar kerak bo'lsa, apps/id_editor (OsmWay/OsmNode) ma'lumotidan
+    # qayta CREATE VIEW qilinishi mumkin - hozircha shart emas,
+    # auto_publish qolgan barcha jadvallarni baribir avtomatik ko'radi.
+
+  functions:
+    basemap_tiles:
+      schema: public
+      function: basemap_tiles
+      minzoom: 10
+      maxzoom: 22

@@ -1,0 +1,28 @@
+# .gitignore (repo root: map_work/)
+
+# Secrets - NEVER commit
+.env
+osm-editor/.env
+
+# Frontend - built locally, shipped separately (not via git)
+osm-editor/dist/
+osm-editor/node_modules/
+osm-editor/.cache/
+
+# Backend
+osm_api/venv/
+osm_api/**/__pycache__/
+osm_api/**/*.pyc
+osm_api/staticfiles/
+osm_api/media/
+
+# Data dumps - too large for git, transferred separately
+*.dump
+data/*.sql
+data/*.gpkg
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

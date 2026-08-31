@@ -1,0 +1,15 @@
+from django.contrib.gis.db import models    
+
+
+class ParkingPolygon(models.Model):
+    fid = models.AutoField(primary_key=True)
+    geom = models.MultiPolygonField(blank=True, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    parking = models.CharField(max_length=255, blank=True, null=True)
+    access = models.CharField(max_length=255, blank=True, null=True)
+    capacity = models.CharField(max_length=255, blank=True, null=True)
+    osm_id = models.BigIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'parking_polygon'

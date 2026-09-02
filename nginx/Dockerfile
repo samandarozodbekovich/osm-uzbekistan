@@ -28,6 +28,11 @@ RUN printf '%s\n' \
 
 RUN npm run build && npm run dist
 
+# default-custom-data.js: martin tiles URL ni baked-in qiladi (build arg dan).
+# {z}/{x}/{y} — shell brace expansion emas, literal chiqadi.
+RUN printf '(function(){var S="settings-custom-data-url",V="settings-custom-data-url-version",VER="2",URL="%s/tiles/basemap_tiles/{z}/{x}/{y}";try{var v=localStorage.getItem(V),s=localStorage.getItem(S);if(!s||v!==VER){localStorage.setItem(S,URL);localStorage.setItem(V,VER)}}catch(e){console.warn("default-custom-data.js:",e)}})();\n' \
+    "${ID_API_CONNECTION_URL}" > dist/default-custom-data.js
+
 # =============================================================================
 # Stage 2: nginx
 # =============================================================================
@@ -35,6 +40,11 @@ FROM nginx:alpine
 
 COPY --from=frontend-build /app/dist /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# npm build ba'zan directorylarga 700 yoki fayllarga 600 permission qo'yadi —
+# nginx worker (nginx user) o'qiy olmaydi va try_files index.html ga tushadi.
+# a+rX = fayllarga read, directoriylarga read+execute qo'shadi.
+RUN chmod -R a+rX /usr/share/nginx/html
 
 # LOCAL: SSL sertifikat kerak emas — nginx.conf faqat port 80 ishlatadi.
 # SERVER: sertifikat host mashinasida /etc/letsencrypt da turadi va

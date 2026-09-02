@@ -50,3 +50,15 @@ if ($failed.Count -gt 0) {
 }
 
 Remove-Item Env:\PGPASSWORD
+
+# ---- Step 2: Add tracking columns via Django management commands ----
+Write-Host "`nAdding tracking columns (edit_source, version, needs_review, ...)..."
+$OsmApiDir = Split-Path $DataDir -Parent | Join-Path -ChildPath "osm_api"
+$PythonExe = Join-Path $OsmApiDir "venv\Scripts\python.exe"
+$ManagePy  = Join-Path $OsmApiDir "manage.py"
+
+& $PythonExe $ManagePy add_layer_tracking_columns
+& $PythonExe $ManagePy fix_tracking_column_names
+& $PythonExe $ManagePy migrate --run-syncdb
+
+Write-Host "Tracking columns added. DB restore complete." -ForegroundColor Green

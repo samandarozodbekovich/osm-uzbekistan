@@ -22,10 +22,15 @@ RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
 COPY . .
 
-# Collect static files at build time (admin CSS/JS, DRF browsable API, etc.)
-# Safe to fail here if settings aren't fully configured yet during first build.
-RUN python manage.py collectstatic --noinput || true
+# NOTE: collectstatic is intentionally NOT run here at build time.
+# The compose file mounts a named volume at /app/staticfiles, which
+# would hide anything written here during the image build. Instead,
+# entrypoint.sh runs collectstatic at container startup, after the
+# volume is already mounted.
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["gunicorn", "osm_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120"]
+ENTRYPOINT ["/entrypoint.sh"]

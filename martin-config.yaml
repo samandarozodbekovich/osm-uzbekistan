@@ -1,4 +1,7 @@
 postgres:
+  # LOCAL:  host.docker.internal → host mashinasidagi PostgreSQL
+  # SERVER: host.docker.internal (agar DB shu serverdagi PostgreSQL bo'lsa)
+  #         yoki tashqi IP: postgres://user:pass@<external-ip>:5432/map_work_db
   connection_string: postgres://postgres:12345@host.docker.internal:5432/map_work_db
   default_srid: 4326
   auto_publish: true

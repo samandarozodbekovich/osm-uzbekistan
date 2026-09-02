@@ -12,18 +12,22 @@ export function uiSettingsCustomData(context) {
     function render(selection) {
         var dataLayer = context.layers().layer('data');
 
+        // Default Custom Map Data URL: our own Martin `basemap_tiles`
+        // composite function-source, which merges water/landuse/vegetation/
+        // parking/highway/railway/building/poi into a single styled MVT
+        // tile server-side (see martin-config.yaml `functions:` block and
+        // the basemap_tiles() SQL function). Falls back to whatever the
+        // user previously saved in prefs, if anything.
+        var DEFAULT_CUSTOM_DATA_URL = 'http://127.0.0.1:3000/basemap_tiles/{z}/{x}/{y}';
+
         // keep separate copies of original and current settings
         var _origSettings = {
             fileList: (dataLayer && dataLayer.fileList()) || null,
-            // Default to our own Martin vector tile basemap when nothing
-            // has been saved yet, so the layer loads automatically on
-            // every fresh browser session instead of requiring the URL
-            // to be re-entered manually each time.
-            // url: prefs('settings-custom-data-url') || 'http://127.0.0.1:3000/highway_line,highway_crossing_point,building_polygon,building_point,water_line,water_polygon,water_point,railway_line,railway_station_point,settlement_point,settlement_polygon,poi_point,power_line,boundary_polygon_lvl6/{z}/{x}/{y}'
+            url: prefs('settings-custom-data-url') || DEFAULT_CUSTOM_DATA_URL
         };
         var _currSettings = {
             fileList: (dataLayer && dataLayer.fileList()) || null,
-            // url: prefs('settings-custom-data-url')
+            url: prefs('settings-custom-data-url') || DEFAULT_CUSTOM_DATA_URL
         };
 
         // var example = 'https://tile.openstreetmap.org/{zoom}/{x}/{y}.png';

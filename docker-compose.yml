@@ -1,9 +1,21 @@
+# =============================================================================
 # docker-compose.yml
 #
-# PostgreSQL/PostGIS is NOT a service here - runs natively on the host.
-# Docker never touches the database.
+# PostgreSQL/PostGIS host mashinasida ishlaydi — Docker uni yaratmaydi.
+#
+# LOCAL  (HTTP,  localhost)       ← kommentda
+# SERVER (HTTPS, map.getplace.uz) ← HOZIR AKTIV
+#
+# LOCALga qaytish tartibi:
+#   1. SERVER nginx blokini kommentga oling
+#   2. LOCAL nginx blokining kommentini oching
+#   3. .env faylida LOCAL blokinini yoqing, SERVER blokini o'chiring
+#   4. nginx/nginx.conf da LOCAL blokinini yoqing, SERVER blokini o'chiring
+# =============================================================================
 
 services:
+
+  # ── Martin: vektor tile server (background tiles) ──────────────────────────
   martin:
     image: ghcr.io/maplibre/martin:1.14.0
     container_name: martin
@@ -16,6 +28,7 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
 
+  # ── Django: OSM API backend ─────────────────────────────────────────────────
   django:
     build:
       context: ./osm_api
@@ -30,16 +43,35 @@ services:
       - static_files:/app/staticfiles
     expose:
       - "8000"
-    command: >
-      gunicorn osm_backend.wsgi:application
-      --bind 0.0.0.0:8000
-      --workers 2
-      --timeout 120
 
+  # ── nginx LOCAL: HTTP only, port 80 ← KOMMENTDA ─────────────────────────────
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: nginx/Dockerfile
+  #     args:
+  #       ID_API_CONNECTION_URL: "http://localhost"
+  #       ID_API_CONNECTION_API_URL: "http://localhost"
+  #       ID_API_CONNECTION_CLIENT_ID: "dummy-client-id"
+  #   container_name: osm_nginx
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - django
+  #     - martin
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - static_files:/static:ro
+
+  # ── nginx SERVER: HTTPS, port 80 + 443 ← AKTIV ───────────────────────────────
   nginx:
     build:
       context: .
       dockerfile: nginx/Dockerfile
+      args:
+        ID_API_CONNECTION_URL: "https://map.getplace.uz"
+        ID_API_CONNECTION_API_URL: "https://map.getplace.uz"
+        ID_API_CONNECTION_CLIENT_ID: "dummy-client-id"
     container_name: osm_nginx
     restart: unless-stopped
     depends_on:
@@ -50,6 +82,7 @@ services:
       - "443:443"
     volumes:
       - static_files:/static:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
 
 volumes:
   static_files:

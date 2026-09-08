@@ -1,8 +1,0 @@
-﻿<osmChange version="0.6" generator="test">
-  <modify>
-    <node id="359470289" version="1" lat="41.3116054" lon="69.2897685">
-      <tag k="name" v="Bibigon Test"/>
-      <tag k="amenity" v="cafe"/>
-    </node>
-  </modify>
-</osmChange>

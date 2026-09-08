@@ -1,21 +1,19 @@
 # =============================================================================
-# docker-compose.yml
+# PostgreSQL/PostGIS runs on the host machine — Docker does not create it.
 #
-# PostgreSQL/PostGIS host mashinasida ishlaydi — Docker uni yaratmaydi.
+# LOCAL  (HTTP,  localhost)       ← commented out
+# SERVER (HTTPS, map.getplace.uz) ← currently active
 #
-# LOCAL  (HTTP,  localhost)       ← kommentda
-# SERVER (HTTPS, map.getplace.uz) ← HOZIR AKTIV
-#
-# LOCALga qaytish tartibi:
-#   1. SERVER nginx blokini kommentga oling
-#   2. LOCAL nginx blokining kommentini oching
-#   3. .env faylida LOCAL blokinini yoqing, SERVER blokini o'chiring
-#   4. nginx/nginx.conf da LOCAL blokinini yoqing, SERVER blokini o'chiring
+# To switch back to LOCAL:
+#   1. Comment out the SERVER nginx block
+#   2. Uncomment the LOCAL nginx block
+#   3. In .env, enable the LOCAL block and remove the SERVER block
+#   4. In nginx/nginx.conf, enable the LOCAL block and remove the SERVER block
 # =============================================================================
 
 services:
 
-  # ── Martin: vektor tile server (background tiles) ──────────────────────────
+  # ── Martin: vector tile server (background tiles) ──────────────────────────
   martin:
     image: ghcr.io/maplibre/martin:1.14.0
     container_name: martin
@@ -44,7 +42,7 @@ services:
     expose:
       - "8000"
 
-  # ── nginx LOCAL: HTTP only, port 80 ← KOMMENTDA ─────────────────────────────
+  # ── nginx LOCAL: HTTP only, port 80 ← COMMENTED OUT ────────────────────────
   # nginx:
   #   build:
   #     context: .
@@ -63,7 +61,7 @@ services:
   #   volumes:
   #     - static_files:/static:ro
 
-  # ── nginx SERVER: HTTPS, port 80 + 443 ← AKTIV ───────────────────────────────
+  # ── nginx SERVER: HTTPS, port 80 + 443 ← ACTIVE ───────────────────────────
   nginx:
     build:
       context: .

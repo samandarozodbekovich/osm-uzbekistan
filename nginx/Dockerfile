@@ -12,14 +12,14 @@ ARG ID_API_CONNECTION_URL=http://localhost
 ARG ID_API_CONNECTION_API_URL=http://localhost
 ARG ID_API_CONNECTION_CLIENT_ID=dummy-client-id
 
-# ── SERVER: https://map.getplace.uz ← docker-compose.yml dan o'zgaradi ───────
-# (docker-compose.yml dagi args qismida qayta yozing, bu yerda o'zgartirmang)
+# ── SERVER: https://map.getplace.uz ← overridden from docker-compose.yml ─────
+# (override in the args section of docker-compose.yml, not here)
 
 COPY osm-editor/package*.json ./
 RUN npm ci
 COPY osm-editor/ .
 
-# Baked-in API connection config (osm-editor/.env ni build vaqtida qayta yozadi)
+# Baked-in API connection config (overwrites osm-editor/.env at build time)
 RUN printf '%s\n' \
     "ID_API_CONNECTION_URL=${ID_API_CONNECTION_URL}" \
     "ID_API_CONNECTION_API_URL=${ID_API_CONNECTION_API_URL}" \
@@ -28,8 +28,8 @@ RUN printf '%s\n' \
 
 RUN npm run build && npm run dist
 
-# default-custom-data.js: martin tiles URL ni baked-in qiladi (build arg dan).
-# {z}/{x}/{y} — shell brace expansion emas, literal chiqadi.
+# default-custom-data.js: bakes in the Martin tiles URL (from the build arg).
+# {z}/{x}/{y} is literal here, not shell brace expansion.
 RUN printf '(function(){var S="settings-custom-data-url",V="settings-custom-data-url-version",VER="2",URL="%s/tiles/basemap_tiles/{z}/{x}/{y}";try{var v=localStorage.getItem(V),s=localStorage.getItem(S);if(!s||v!==VER){localStorage.setItem(S,URL);localStorage.setItem(V,VER)}}catch(e){console.warn("default-custom-data.js:",e)}})();\n' \
     "${ID_API_CONNECTION_URL}" > dist/default-custom-data.js
 
@@ -41,13 +41,13 @@ FROM nginx:alpine
 COPY --from=frontend-build /app/dist /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# npm build ba'zan directorylarga 700 yoki fayllarga 600 permission qo'yadi —
-# nginx worker (nginx user) o'qiy olmaydi va try_files index.html ga tushadi.
-# a+rX = fayllarga read, directoriylarga read+execute qo'shadi.
+# npm build sometimes leaves directories at 700 or files at 600 — the nginx
+# worker (nginx user) then can't read them and try_files falls back to
+# index.html. a+rX adds read to files and read+execute to directories.
 RUN chmod -R a+rX /usr/share/nginx/html
 
-# LOCAL: SSL sertifikat kerak emas — nginx.conf faqat port 80 ishlatadi.
-# SERVER: sertifikat host mashinasida /etc/letsencrypt da turadi va
-#         docker-compose.yml dagi volumes orqali mount qilinadi.
-#         Serverda ishga tushirishdan oldin:
+# LOCAL: no SSL certificate needed — nginx.conf only uses port 80.
+# SERVER: the certificate lives on the host at /etc/letsencrypt and is
+#         mounted via the volumes in docker-compose.yml.
+#         Before starting on the server:
 #           sudo certbot certonly --standalone -d map.getplace.uz

@@ -3,6 +3,12 @@
 # Secrets - NEVER commit
 .env
 osm-editor/.env
+# SSH keys (deploy keys generated locally)
+sGu189nJBC
+sGu189nJBC.pub
+*.pem
+id_ed25519*
+id_rsa*
 
 # Frontend - built locally, shipped separately (not via git)
 osm-editor/node_modules/

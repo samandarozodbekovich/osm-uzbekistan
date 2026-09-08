@@ -1,6 +1,4 @@
 """
-apps/map_layers/management/commands/add_layer_tracking_columns.py
-
 Adds the shared editing/tracking columns to every raw NextGIS table that
 was just loaded via psql. Safe to re-run (uses ADD COLUMN IF NOT EXISTS).
 
@@ -57,4 +55,3 @@ class Command(BaseCommand):
                     connection.rollback()
 
         self.stdout.write(self.style.SUCCESS(f"\nDone: {len(TABLE_NAMES)} tables processed."))
-        self.stdout.write("Next: python manage.py inspectdb " + " ".join(TABLE_NAMES) + " > raw_inspected_models.py")

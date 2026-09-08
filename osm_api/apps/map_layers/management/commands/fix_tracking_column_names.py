@@ -1,6 +1,4 @@
 """
-apps/map_layers/management/commands/fix_tracking_column_names.py
-
 Renames our tracking "source" column to "edit_source" everywhere, to avoid
 colliding with layers that have their own native "source" attribute
 (discovered: milestone_point already had one, so our earlier

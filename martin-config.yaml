@@ -1,7 +1,7 @@
 postgres:
-  # LOCAL:  host.docker.internal → host mashinasidagi PostgreSQL
-  # SERVER: host.docker.internal (agar DB shu serverdagi PostgreSQL bo'lsa)
-  #         yoki tashqi IP: postgres://user:pass@<external-ip>:5432/map_work_db
+  # LOCAL:  host.docker.internal → PostgreSQL on the host machine
+  # SERVER: host.docker.internal (if the DB is PostgreSQL on this same server)
+  #         or an external IP: postgres://user:pass@<external-ip>:5432/map_work_db
   connection_string: postgres://postgres:12345@host.docker.internal:5432/map_work_db
   default_srid: 4326
   auto_publish: true
@@ -892,10 +892,10 @@ postgres:
         version: int4
         visible: bool
 
-    # osm_basemap olib tashlandi - bu VIEW baza tozalanganda yo'qolgan.
-    # Agar kerak bo'lsa, apps/id_editor (OsmWay/OsmNode) ma'lumotidan
-    # qayta CREATE VIEW qilinishi mumkin - hozircha shart emas,
-    # auto_publish qolgan barcha jadvallarni baribir avtomatik ko'radi.
+    # osm_basemap was removed - that VIEW was lost when the database was wiped.
+    # If needed, it can be re-created with CREATE VIEW from the apps/id_editor
+    # data (OsmWay/OsmNode) - not required for now, and auto_publish picks up
+    # all the remaining tables automatically anyway.
 
   functions:
     basemap_tiles:
